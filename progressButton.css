@@ -16,7 +16,6 @@ body {
       margin: 10px;
   }
   
-  
   /* Button style */
   .progress-button button {
       display: block;
@@ -50,4 +49,3 @@ body {
       -webkit-transition: opacity 0.3s 0.1s;
       transition: opacity 0.3s 0.1s;
   }
-  
