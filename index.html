@@ -38,11 +38,11 @@
       <strong id="alerttitle">alert</strong> <span id="alertmessage"></span>
     </div>
     <form action="" id="main">
-      <!-- <input type="file" id="ip-img" multiple> -->
+
       <input type="file" id="ip-img" accept="image/*" />
       <div id="box" style="color: #a0abac">
         <div class="icon">
-          <!-- <i class="fa-solid fa-upload fa-bounce fa-2xl uploadicon"></i> -->
+          
           <i class="fa-solid fa-arrow-up fa-2xl" style="font-size: 80px"></i>
         </div>
         <div class="uploadtext">
@@ -94,4 +94,145 @@
         </div>
       </div>
     </div>
-
+    <style>
+        #customalert {
+          display: none;
+        }
+        .submit {
+          display: flex;
+          justify-content: center;
+          gap: 30px;
+          flex-wrap: wrap;
+          align-items: center;
+        }
+        #displayImage {
+          position: relative;
+  
+          width: fit-content;
+        }
+  
+        .custombutton {
+          width: 300px;
+  
+          border: none;
+          padding: 20px 40px;
+          border-radius: 40px;
+          cursor: pointer;
+          font-size: 20px;
+          font-weight: 700;
+          transition: background-color 0.3s, color 0.3s, outline 0.3s;
+  
+          background-color: white;
+          color: #59fd0d;
+          outline: 5px solid #59fd0d;
+        }
+        .custombutton:hover {
+          background-color: #59fd0d;
+          color: white;
+        }
+        #dimg {
+          width: 300px;
+          height: 100%;
+        }
+        #remove {
+          position: absolute;
+          top: -10px;
+          right: -6px;
+          cursor: pointer;
+        }
+  
+        #main {
+          margin: 100px;
+        }
+        .dragtext {
+          font-size: large;
+          color: rgba(0, 0, 0, 0.2);
+        }
+        .uploadicon {
+          font-size: xx-large;
+        }
+        .drag {
+          width: max-content;
+          margin: auto;
+          
+        }
+  
+        .img {
+          width: 300px;
+          height: 300px;
+          position: relative;
+        }
+  
+        #imggg {
+          width: 80vw;
+          margin: auto;
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: 50px;
+          gap: 20px;
+        }
+  
+        #ip-img {
+          display: none;
+        }
+  
+        .innerimg {
+          height: 100%;
+          width: 100%;
+        }
+  
+        .delete {
+          position: absolute;
+          right: 5px;
+          top: 5px;
+          display: none;
+        }
+  
+        .img:hover .delete {
+          display: block;
+          color: white;
+          cursor: pointer;
+          border-radius: 30%;
+        }
+  
+        
+  
+        #box {
+          width: 500px;
+          height: 300px;
+          border: 1px solid #a0abac;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 50px;
+          margin: auto;
+          cursor: pointer;
+          text-align: center;
+        }
+        #box:hover {
+          border: 1px solid lightskyblue;
+        }
+        #box:hover h2 {
+          color: blue;
+        }
+        #box:hover i {
+          color: blue;
+          animation: bounce 0.5s infinite alternate;
+        }
+        .displayImage {
+          display: none;
+        }
+        .clear {
+          background-color: rgba(255, 7, 7, 0.1);
+        }
+  
+        @keyframes bounce {
+          to {
+            transform: translateY(-20px);
+          }
+        }
+      </style>
+    
+  </body>
+</html>
