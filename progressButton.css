@@ -44,7 +44,7 @@ body {
       outline: none;
   }
   
-  /* Text (transition for when returning to initial state) */
+  /* Text (transition for when returning to initial state) .*/
   .progress-button button span {
       -webkit-transition: opacity 0.3s 0.1s;
       transition: opacity 0.3s 0.1s;
