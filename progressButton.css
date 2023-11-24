@@ -83,7 +83,7 @@ body {
     transition: opacity 0.1s;
 }
 
-/* Loading, success and error effects */
+/* Loading, success and error effects. */
 .loading.progress-button button {
     width: 70px; /* make a circle */
     border-width: 5px;
