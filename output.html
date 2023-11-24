@@ -73,6 +73,46 @@
         margin: auto;
       }
     </style>
-    
+    <div class="load">
+        <div class="spinner-grow text-success" role="status" id="loader">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+  
+      <div class="main" id="main">
+        <div class="image">
+          <img src="" alt="Species Image" id="species_image" />
+        </div>
+  
+        <div class="info" id="info">
+          <div class="species_name" id="species_name">Species Name</div>
+          <div class="species_info" id="species_info">Species Infoormation</div>
+        </div>
+        <div class="audio">
+          <span class="material-symbols-outlined" id="play_audio"> mic </span>
+          <audio controls src="" id="audio_source" hidden></audio>
+        </div>
+      </div>
+  
+      <script>
+        const species_name = document.getElementById("species_name");
+        const species_image = document.getElementById("species_image");
+        const species_info = document.getElementById("species_info");
+        const storedImage = "StoredImage";
+        const info = document.getElementById("info");
+  
+        const info_url = "http://ec2-54-79-41-237.ap-southeast-2.compute.amazonaws.com/analyze";
+        const aws_url_announce = "http://ec2-54-79-41-237.ap-southeast-2.compute.amazonaws.com/announce";
+        const loader = document.getElementById("loader");
+      const main = document.getElementById("main");
+
+      window.onload = () => {
+        if (localStorage.getItem(storedImage)) {
+          species_image.style.display = "inline-block";
+          species_image.src = localStorage.getItem(storedImage);
+        }
+        load_data();
+      };
+      </script>  
   </body>
 </html>
