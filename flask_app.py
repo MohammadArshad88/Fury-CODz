@@ -174,4 +174,49 @@ def upload_image():
 
   return jsonify({'message': 'Image uploaded successfully'})
 
+# API endpoint for analyzing the image
+@app.route('/analyze', methods=['POST'])
+def analyze_image():
+  # Get the S3 bucket and key from the request
+  s3_bucket = S3_BUCKET_NAME
+  s3_key = 'input-image/input_1.jpg'
+
+  # Process the image and get results
+  annotated_image_result, species_name_result, species_information_result, output_key_result = process_image_from_s3(
+      s3_bucket, s3_key)
+
+  # Convert the annotated image to bytes and send it in the response
+  img_byte_arr = io.BytesIO()
+  annotated_image_result.save(img_byte_arr,
+                              format='JPEG')  # Use 'PNG' for PNG format
+  img_byte_arr = img_byte_arr.getvalue()
+  return jsonify({
+      'detected_species':
+      species_name_result,
+      'species_information':
+      species_information_result,
+      'annotated_image':
+      base64.b64encode(img_byte_arr).decode(
+          'utf-8')  # Convert bytes to base64 string
+  })
+
+
+# API endpoint for announcing species information
+@app.route('/announce', methods=['POST'])
+def announce_species_information():
+  # Get species name and information from the request
+  species_name = request.json.get('species_name')
+  species_information = request.json.get('species_information')
+
+  # Use Amazon Polly to announce species information
+  announce_species_information_with_polly(species_name, species_information)
+  response = send_file('./output.mp3', as_attachment=True)
+  response.headers['Content-Type'] = 'audio/mp3'
+  return response
+  # return jsonify({'message': 'Species information announced successfully'})
+
+
+if __name__ == '__main__':
+#   app.run(debug=True)
+  app.run(host='0.0.0.0', port=80)
 
