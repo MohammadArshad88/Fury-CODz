@@ -1,0 +1,51 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+  /* Button container */
+  .progress-button {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+      width: 45%;
+      min-width: 250px;
+      margin: 10px;
+  }
+  
+  /* Button style */
+  .progress-button button {
+      display: block;
+      margin: 0 auto;
+      padding: 0;
+      width: 250px;
+      height: 70px;
+      border: 2px solid #1ECD97;
+      border-radius: 40px;
+      background: transparent;
+      color: #1ECD97;
+      letter-spacing: 1px;
+      font-size: 18px;
+      font-family: 'Montserrat', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+      transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+  }
+  
+  .progress-button button:hover {
+      background-color: #1ECD97;
+      color: #fff;
+  }
+  
+  .progress-button button:focus {
+      outline: none;
+  }
+  
+  /* Text (transition for when returning to initial state) .*/
+  .progress-button button span {
+      -webkit-transition: opacity 0.3s 0.1s;
+      transition: opacity 0.3s 0.1s;
+  }
