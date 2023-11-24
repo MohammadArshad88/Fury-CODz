@@ -93,3 +93,85 @@ def detect_labels_and_annotate(image_bytes):
 
   return image, f"{label['Name']}"
 
+def get_species_information_from_dynamodb(species_name):
+  response = dynamodb_client.get_item(TableName=DYNAMODB_TABLE_NAME,
+                                      Key={'species': {
+                                          'S': species_name
+                                      }})
+  return response.get('Item', {}).get('information', {}).get('S', '')
+
+
+# Function to put annotated image to S3 and read species information from DynamoDB
+def process_image_from_s3(bucket_name, key):
+  # Download image from S3
+  response = s3_client.get_object(Bucket=bucket_name, Key=key)
+  image_bytes = response['Body'].read()
+
+  # Detect labels and annotate the image
+  annotated_image, label_name = detect_labels_and_annotate(image_bytes)
+
+  # Save annotated image back to S3
+  output_key = 'output-image/' + key
+  # s3_client.put_object(Body=io.BytesIO(annotated_image.tobytes()).read(),
+  #                      Bucket=bucket_name, Key=output_key)
+
+  # Save annotated image locally
+  # local_output_path = 'output-image/' + key  # Adjust the local path as needed
+  # annotated_image.save(local_output_path)
+
+  # Use Amazon Polly to announce species information
+  species_name = label_name
+  species_information = get_species_information_from_dynamodb(species_name)
+  # announce_species_information_with_polly(species_name, species_information)
+
+  return annotated_image, species_name, species_information, output_key
+
+
+# Function to use Amazon Polly to announce label
+def announce_label_with_polly(label_with_confidence):
+  response = polly_client.synthesize_speech(Text=label_with_confidence,
+                                            OutputFormat='mp3',
+                                            VoiceId=POLLY_VOICE_ID)
+  audio_stream = response['AudioStream'].read()
+  save_audio(audio_stream)
+
+
+# Function to use Amazon Polly to announce species information
+def announce_species_information_with_polly(species_name, species_information):
+
+  announcement = f"The detected species is {species_name}. Here is some information about it. {species_information}"
+  announcement += ""
+  print(announcement)
+  response = polly_client.synthesize_speech(Text=announcement,
+                                            OutputFormat='mp3',
+                                            VoiceId=POLLY_VOICE_ID)
+  try:
+    audio_stream = response['AudioStream'].read()
+    save_audio(audio_stream)
+
+  except:
+    print("no species information")
+
+
+# Function to play audio
+def save_audio(audio_stream):
+  with open('output.mp3', 'wb') as file:
+    file.write(audio_stream)
+
+
+# API endpoint for uploading an image
+
+
+@app.route('/upload', methods=['POST'])
+@cross_origin()
+def upload_image():
+  # Get the uploaded image from the request
+  uploaded_image = request.files['image']
+
+  # Save the image to S3 in the input-image folder
+  s3_client.upload_fileobj(uploaded_image, S3_BUCKET_NAME,
+                           'input-image/input_1.jpg')
+
+  return jsonify({'message': 'Image uploaded successfully'})
+
+
