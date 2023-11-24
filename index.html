@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="progressButton.css" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="icon" href="icon.png" type="image/x-icon" />
+    <title>ECOECHO-Species Identification</title>
+  </head>
+
+  <body>
+    <div
+      class="alert alert-dismissible fade show text-center"
+      role="alert"
+      id="customalert"
+    >
+      <strong id="alerttitle">alert</strong> <span id="alertmessage"></span>
+    </div>
+    <form action="" id="main">
+
+      <input type="file" id="ip-img" accept="image/*" />
+      <div id="box" style="color: #a0abac">
+        <div class="icon">
+          
+          <i class="fa-solid fa-arrow-up fa-2xl" style="font-size: 80px"></i>
+        </div>
+        <div class="uploadtext">
+          <h2 class="drag" id="dragtext">Click your image to upload</h2>
+        </div>
+      </div>
+    </form>
+    <div class="submit">
+      <div class="displayImage" id="displayImage">
+        <div id="remove" onclick="removeImage()">
+          <i
+            class="fa-solid fa-xmark fa-xl fa-beat"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Remove Image !"
+          ></i>
+        </div>
+        <img src="" id="dimg" alt="input-image" />
+      </div>
+      <div class="submitbutton">
+        
+        <div class="progress-button elastic">
+          <button><span>Submit</span></button>
+          <svg class="progress-circle" width="70" height="70">
+            <path
+              d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"
+              stroke-dasharray="204.245 204.245"
+              stroke-dashoffset="204.245"
+            />
+          </svg>
+          <svg class="checkmark" width="70" height="70">
+            <path
+              d="m31.5,46.5l15.3,-23.2"
+              stroke-dasharray="27.80 27.80"
+              stroke-dashoffset="27.80"
+            />
+            <path
+              d="m31.5,46.5l-8.5,-7.1"
+              stroke-dasharray="11.7 11.7"
+              stroke-dashoffset="11.7"
+            />
+          </svg>
+          <svg class="cross" width="70" height="70">
+            <path d="m35,35l-9.3,-9.3" />
+            <path d="m35,35l9.3,9.3" />
+            <path d="m35,35l-9.3,9.3" />
+            <path d="m35,35l9.3,-9.3" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <style>
+        #customalert {
+          display: none;
+        }
+        .submit {
+          display: flex;
+          justify-content: center;
+          gap: 30px;
+          flex-wrap: wrap;
+          align-items: center;
+        }
+        #displayImage {
+          position: relative;
+  
+          width: fit-content;
+        }
+  
+        .custombutton {
+          width: 300px;
+  
+          border: none;
+          padding: 20px 40px;
+          border-radius: 40px;
+          cursor: pointer;
+          font-size: 20px;
+          font-weight: 700;
+          transition: background-color 0.3s, color 0.3s, outline 0.3s;
+  
+          background-color: white;
+          color: #59fd0d;
+          outline: 5px solid #59fd0d;
+        }
+        .custombutton:hover {
+          background-color: #59fd0d;
+          color: white;
+        }
+        #dimg {
+          width: 300px;
+          height: 100%;
+        }
+        #remove {
+          position: absolute;
+          top: -10px;
+          right: -6px;
+          cursor: pointer;
+        }
+  
+        #main {
+          margin: 100px;
+        }
+        .dragtext {
+          font-size: large;
+          color: rgba(0, 0, 0, 0.2);
+        }
+        .uploadicon {
+          font-size: xx-large;
+        }
+        .drag {
+          width: max-content;
+          margin: auto;
+          
+        }
+  
+        .img {
+          width: 300px;
+          height: 300px;
+          position: relative;
+        }
+  
+        #imggg {
+          width: 80vw;
+          margin: auto;
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: 50px;
+          gap: 20px;
+        }
+  
+        #ip-img {
+          display: none;
+        }
+  
+        .innerimg {
+          height: 100%;
+          width: 100%;
+        }
+  
+        .delete {
+          position: absolute;
+          right: 5px;
+          top: 5px;
+          display: none;
+        }
+  
+        .img:hover .delete {
+          display: block;
+          color: white;
+          cursor: pointer;
+          border-radius: 30%;
+        }
+  
+        
+  
+        #box {
+          width: 500px;
+          height: 300px;
+          border: 1px solid #a0abac;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 50px;
+          margin: auto;
+          cursor: pointer;
+          text-align: center;
+        }
+        #box:hover {
+          border: 1px solid lightskyblue;
+        }
+        #box:hover h2 {
+          color: blue;
+        }
+        #box:hover i {
+          color: blue;
+          animation: bounce 0.5s infinite alternate;
+        }
+        .displayImage {
+          display: none;
+        }
+        .clear {
+          background-color: rgba(255, 7, 7, 0.1);
+        }
+  
+        @keyframes bounce {
+          to {
+            transform: translateY(-20px);
+          }
+        }
+      </style>
+
+<script src="./progressButton.js"></script>
+<script>
+  const storedImage = "StoredImage";
+  const aws_url = "http://ec2-54-79-41-237.ap-southeast-2.compute.amazonaws.com/upload";
+  const output_url = "http://localhost:5500/output.html";
+
+  var image = null;
+
+  const box = document.getElementById("box");
+  const inputImage = document.getElementById("ip-img");
+  const displayImage = document.getElementById("displayImage");
+  const dimg = document.getElementById("dimg");
+  
+
+  // drag and drop settings
+  box.addEventListener("click", () => {
+    document.getElementById("ip-img").click();
+  });
+  box.addEventListener("dragover", (e) => {
+    box.classList.add("clear");
+  });
+  box.addEventListener("dragleave", (e) => {
+    box.classList.remove("clear");
+  });
+  document.addEventListener("dragover", function (event) {
+    event.preventDefault();
+  });
+  box.addEventListener("drop", (e) => {
+    e.preventDefault();
+    box.classList.remove("clear");
+    var file = e.dataTransfer;
+    console.log(file.files);
+    if (file.files.length > 0) {
+      storeImage(file.files);
+    } else {
+      showAlert("No Image selected", "Try again ", "danger");
+    }
+  });
+
+  function removeImage() {
+    localStorage.removeItem(storedImage);
+    displayImage.style.display = "none";
+    dimg.src = "";
+    image = null;
+  }
+  inputImage.onchange = () => {
+    var idi = 0;
+    if (inputImage.files.length > 0) {
+      processImage(inputImage.files);
+    } else {
+      showAlert("No Image selected", "Try again ", "danger");
+    }
+  };
+
+  function processImage(inputImage) {
+    let storeSizeExceed = false;
+    displayImage.style.display = "inline-block";
+    image = inputImage[0];
+    if (image.size / 1024 / 1024 > 3.8) {
+      storeSizeExceed = true;
+      showAlert(
+        "Storage Size Exceeded! ",
+        "Image will vanish on reload",
+        "warning"
+      );
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      try {
+        const result = fileReader.result;
+
+        if (!storeSizeExceed) {
+          storeInLocalStorage(result);
+        }
+        dimg.src = result;
+        showAlert(
+          "Image Loaded!",
+          "Click on submit button to upload",
+          "success"
+        );
+      } catch (err) {
+        showAlert("Error!", "Try again ", "" + err);
+      }
+    };
+    fileReader.readAsDataURL(image);
+  }
+
+  function storeInLocalStorage(result) {
+    localStorage.setItem(storedImage, result);
+  }
+
+  function showAlert(alertTitle, alertMessage, alertType) {
+    const showalert = document.getElementById("customalert");
+    const alertMessageElement = document.getElementById("alertmessage");
+    const alertTitleElement = document.getElementById("alerttitle");
+    showalert.classList.add("alert-" + alertType);
+    alertMessageElement.innerHTML = alertMessage;
+    alertTitleElement.innerHTML = alertTitle;
+    showalert.style.display = "block";
+    setTimeout(() => {
+      showalert.style.display = "none";
+    }, 4000);
+  }
+
+  async function uploadImage() {
+    let formData = new FormData();
+    // Append the image file to the formData object
+    // The 'image' is the key which the server will use to retrieve the file
+    formData.append("image", image);
+
+    try {
+      let response = await fetch(aws_url, {
+        method: "POST",
+        body: formData,
+      });
+      let data = await response.json();
+      console.log(data);
+      showAlert("Image Uploaded!", data.message, "success");
+      toggleSuccess();
+      setTimeout(() => {
+        window.location.href = output_url;
+      }, 500);
+    } catch (err) {
+      console.error("AWS API REQUEST ERROR", err);
+      toggleError();
+    }
+  }
+  document
+    .querySelector(".progress-button button")
+    .addEventListener("click", function () {
+      document.querySelector(".progress-button").classList.add("loading");
+      draw(".progress-circle path");
+
+      uploadImage();
+
+      // toggleSuccess
+
+      // toggleError
+    });
+
+  const btn = document.getElementById("btn");
+</script>
+    
+  </body>
+</html>
