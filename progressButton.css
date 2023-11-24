@@ -49,3 +49,50 @@ body {
       -webkit-transition: opacity 0.3s 0.1s;
       transition: opacity 0.3s 0.1s;
   }
+ /* Common style of SVGs */
+ .progress-button svg {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.progress-button svg path {
+    opacity: 0;
+    fill: none;
+}
+
+.progress-button svg.progress-circle path {
+    stroke: #1ECD97;
+    stroke-width: 5;
+}
+
+.error.progress-button svg.progress-circle path {
+    stroke: #FB797E;
+    stroke-width: 5;
+}
+
+.progress-button svg.checkmark path,
+.progress-button svg.cross path {
+    stroke: #fff;
+    stroke-linecap: round;
+    stroke-width: 4;
+    -webkit-transition: opacity 0.1s;
+    transition: opacity 0.1s;
+}
+
+/* Loading, success and error effects */
+.loading.progress-button button {
+    width: 70px; /* make a circle */
+    border-width: 5px;
+    border-color: #ddd;
+    background-color: transparent;
+    color: #fff;
+}
+
+.loading.progress-button span {
+    -webkit-transition: opacity 0.15s;
+    transition: opacity 0.15s;
+}
