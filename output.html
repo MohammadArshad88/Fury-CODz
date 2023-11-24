@@ -113,6 +113,62 @@
         }
         load_data();
       };
+
+      async function load_data() {
+        try {
+          var image_info = await fetch(info_url, {
+            method: "POST",
+          });
+
+          image_info = await image_info.json();
+
+          species_image.src =
+            "data:image/jpeg;base64," + image_info.annotated_image;
+          species_info.innerHTML = image_info.species_information;
+          species_name.innerHTML = image_info.detected_species;
+          main.style.display = "block";
+          loader.style.display = "none";
+        } catch (err) {
+          console.log(err);
+        }
+
+        announce(species_name.innerHTML, species_info.innerHTML);
+      }
+
+      async function announce(sname, sinfo) {
+        try {
+          var audio_info = await fetch(aws_url_announce, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              species_name: sname,
+              species_information: sinfo,
+            }),
+          });
+          var rec_audio = await audio_info.blob();
+
+          let audioURL = URL.createObjectURL(rec_audio);
+
+          // Set the audio element's source to the created URL
+          audio_source.src = audioURL;
+          alert("Audio loaded successfully!");
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      /* playing audio of species info */
+      const playAudio = document.getElementById("play_audio");
+      const audio_source = document.getElementById("audio_source");
+      playAudio.addEventListener("click", () => {
+        if (audio_source.src) {
+          audio_source.play();
+        } else {
+          alert("No audio source");
+        }
+      });
       </script>  
   </body>
 </html>
