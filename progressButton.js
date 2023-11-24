@@ -14,3 +14,14 @@ var selectedValue = "win"
     }, 3000);
   };
   
+  var toggleError = function() {
+    var progressButton = document.querySelector('.progress-button');
+    progressButton.classList.add('error');
+    draw('.cross path');
+    
+    setTimeout(function() {
+      progressButton.classList.remove('error');
+      progressButton.classList.remove('loading');
+      resetDashes();
+    }, 3000);
+  };
