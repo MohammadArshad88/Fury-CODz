@@ -22,8 +22,8 @@ def home():
 # AWS credentials and configuration
 AWS_ACCESS_KEY_ID = 'AKIAXJXXKU5EAU3U2JMJ'  #ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY = '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'  #SECRET_ACCESS_KEY
-AWS_REGION = 'ap-southeast-2'  #AWS_REGION
-S3_BUCKET_NAME = 'speciesinfostorage'  #S3 BUCKET NAME
+AWS_REGION = 'us-east-2'  #AWS_REGION
+S3_BUCKET_NAME = 'speciesinfostorage-echo'  #S3 BUCKET NAME
 DYNAMODB_TABLE_NAME = 'SpeciesInformation'  #DYNAMODB TABLE NAME
 REKOGNITION_MAX_LABELS = 1
 POLLY_VOICE_ID = 'Joanna'  # You can change the voice ID as needed
@@ -47,12 +47,11 @@ polly_client = boto3.client('polly',
                             region_name=AWS_REGION)
 
 
-# Function to get species information from DynamoDB
+# Function to detect labels and annotate using  aws rekognition
 def detect_labels_and_annotate(image_bytes):
   detect_objects = rekognition_client.detect_labels(
       Image={'Bytes': image_bytes},
-      MaxLabels=
-      1  # Set MaxLabels to 1 to get only the label with the highest confidence
+      MaxLabels= 1  # Set MaxLabels to 1 to get only the label with the highest confidence
   )
 
   image = Image.open(io.BytesIO(image_bytes))
@@ -89,7 +88,7 @@ def detect_labels_and_annotate(image_bytes):
           draw.text((text_x, text_y), label["Name"], font=font, fill='#000000')
 
           # Use Amazon Polly to announce the label
-          # announce_label_with_polly(f"{label['Name']}")
+          
 
   return image, f"{label['Name']}"
 
@@ -112,12 +111,7 @@ def process_image_from_s3(bucket_name, key):
 
   # Save annotated image back to S3
   output_key = 'output-image/' + key
-  # s3_client.put_object(Body=io.BytesIO(annotated_image.tobytes()).read(),
-  #                      Bucket=bucket_name, Key=output_key)
-
-  # Save annotated image locally
-  # local_output_path = 'output-image/' + key  # Adjust the local path as needed
-  # annotated_image.save(local_output_path)
+  
 
   # Use Amazon Polly to announce species information
   species_name = label_name
@@ -153,7 +147,7 @@ def announce_species_information_with_polly(species_name, species_information):
     print("no species information")
 
 
-# Function to play audio
+# Function to save audio
 def save_audio(audio_stream):
   with open('output.mp3', 'wb') as file:
     file.write(audio_stream)
@@ -213,7 +207,7 @@ def announce_species_information():
   response = send_file('./output.mp3', as_attachment=True)
   response.headers['Content-Type'] = 'audio/mp3'
   return response
-  # return jsonify({'message': 'Species information announced successfully'})
+  
 
 
 if __name__ == '__main__':
